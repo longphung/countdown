@@ -14,7 +14,7 @@ import (
 func main() {
 	dbLocation := os.Getenv("DB_LOCATION")
 	if dbLocation == "" {
-		dbLocation = "./db.sqlite"
+		dbLocation = "./db/db.sqlite"
 	}
 	db, err := gorm.Open(sqlite.Open(dbLocation), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
