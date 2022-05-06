@@ -1,13 +1,14 @@
 package countdown
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/longphung/countdown/countdown/interfaces"
+	"github.com/longphung/countdown/countdown/models"
 	"net/http"
 )
 
 type Handler struct {
-	service *Services
+	service interfaces.Services
 }
 
 func NewHandler(service *Services) *Handler {
@@ -28,25 +29,35 @@ func (ch *Handler) GetAllCountdowns(c *gin.Context) {
 }
 
 func (ch *Handler) GetCountdown(c *gin.Context) {
-	countdown, err := ch.service.GetCountdown(c.Param("id"))
+	var params struct {
+		Id string `uri:"id" binding:"numeric"`
+	}
+	if err := c.ShouldBindUri(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	countdown, err := ch.service.GetCountdown(params.Id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	fmt.Println(countdown)
-	fmt.Println(*countdown)
 	c.JSON(http.StatusOK, countdown)
 }
 
 func (ch *Handler) CreateCountdown(c *gin.Context) {
-	var countdown Model
+	var countdown models.Countdown
 	err := c.BindJSON(&countdown)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
-	id, err := ch.service.AddCountdown(countdown)
+	id, err := ch.service.CreateCountdown(countdown)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -59,7 +70,7 @@ func (ch *Handler) CreateCountdown(c *gin.Context) {
 }
 
 func (ch *Handler) UpdateCountdown(c *gin.Context) {
-	var countdown Model
+	var countdown models.Countdown
 	err := c.BindJSON(&countdown)
 	if err != nil {
 		return
@@ -81,7 +92,16 @@ func (ch *Handler) UpdateCountdown(c *gin.Context) {
 }
 
 func (ch *Handler) DeleteCountdown(c *gin.Context) {
-	err := ch.service.DeleteCountdown(c.Param("id"))
+	var params struct {
+		Id string `uri:"id" binding:"numeric"`
+	}
+	if err := c.ShouldBindUri(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	err := ch.service.DeleteCountdown(params.Id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

@@ -1,28 +1,33 @@
 package countdown
 
+import (
+	"github.com/longphung/countdown/countdown/interfaces"
+	"github.com/longphung/countdown/countdown/models"
+)
+
 type Services struct {
-	repository Repository
+	repository interfaces.Repository
 }
 
-func NewService(repository Repository) *Services {
+func NewService(repository interfaces.Repository) *Services {
 	return &Services{
 		repository: repository,
 	}
 }
 
-func (service *Services) GetAllCountdowns() ([]Model, error) {
+func (service *Services) GetAllCountdowns() ([]models.Countdown, error) {
 	return service.repository.GetAllCountdowns()
 }
 
-func (service *Services) GetCountdown(id string) (*Model, error) {
+func (service *Services) GetCountdown(id string) (*models.Countdown, error) {
 	return service.repository.GetCountdown(id)
 }
 
-func (service *Services) AddCountdown(countdown Model) (int64, error) {
+func (service *Services) CreateCountdown(countdown models.Countdown) (int64, error) {
 	return service.repository.CreateCountdown(countdown)
 }
 
-func (service *Services) UpdateCountdown(id string, countdown Model) (*Model, int64, error) {
+func (service *Services) UpdateCountdown(id string, countdown models.Countdown) (*models.Countdown, int64, error) {
 	return service.repository.UpdateCountdown(id, countdown)
 }
 

@@ -3,92 +3,73 @@ package countdown
 import (
 	"database/sql"
 	"fmt"
-	"log"
+	"github.com/longphung/countdown/countdown/models"
+	"gorm.io/gorm"
 )
 
 type SQLiteRepository struct {
-	db *sql.DB
+	db  *gorm.DB
+	ldb *sql.DB
 }
 
-func NewSQLiteRepository() *SQLiteRepository {
-	db, err := sql.Open("sqlite", "./countdown.sqlite")
-	if err != nil {
-		log.Fatalln(err)
-	}
+func NewSQLiteRepository(db *gorm.DB) *SQLiteRepository {
 	return &SQLiteRepository{
 		db: db,
 	}
 }
 
-func (repo *SQLiteRepository) GetAllCountdowns() ([]Model, error) {
-	var countdowns []Model
-	rows, err := repo.db.Query("SELECT * FROM countdown")
-	if err != nil {
-		return nil, fmt.Errorf("getAllCountdowns %v", err)
-	}
-	defer func(rows *sql.Rows) {
-		err := rows.Close()
-		if err != nil {
-
-		}
-	}(rows)
-	for rows.Next() {
-		var countdown Model
-		if err := rows.Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft); err != nil {
-			return nil, fmt.Errorf("getAllCountdowns %v", err)
-		}
-		countdowns = append(countdowns, countdown)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("getAllCountdowns %v", err)
+func (repo *SQLiteRepository) GetAllCountdowns() ([]models.Countdown, error) {
+	var countdowns []models.Countdown
+	result := repo.db.Find(&countdowns)
+	if result.Error != nil {
+		return nil, result.Error
 	}
 	return countdowns, nil
 }
 
-func (repo *SQLiteRepository) GetCountdown(id string) (*Model, error) {
+func (repo *SQLiteRepository) GetCountdown(id string) (*models.Countdown, error) {
 	return repo.getCountdown(id)
 }
 
-func (repo *SQLiteRepository) CreateCountdown(countdown Model) (int64, error) {
-	result, err := repo.db.Exec("INSERT INTO countdown (Name, time_left) VALUES (?, ?)", countdown.Name, countdown.TimeLeft)
-	if err != nil {
-		return 0, fmt.Errorf("createCountdown %v", err)
+func (repo *SQLiteRepository) CreateCountdown(countdown models.Countdown) (int64, error) {
+	result := repo.db.Create(&countdown)
+	if result.Error != nil {
+		return 0, fmt.Errorf("createCountdown %v", result.Error)
 	}
-	id, err := result.LastInsertId()
-	if err != nil {
-		return 0, fmt.Errorf("createCountdown %v", err)
-	}
-	return id, nil
+	return int64(countdown.ID), nil
 }
 
-func (repo *SQLiteRepository) UpdateCountdown(id string, countdown Model) (*Model, int64, error) {
-	result, err := repo.db.Exec("UPDATE countdown SET name = ?, time_left = ? WHERE id = ?", countdown.Name, countdown.TimeLeft, id)
-	if err != nil {
-		return nil, 0, err
+func (repo *SQLiteRepository) UpdateCountdown(id string, countdown models.Countdown) (*models.Countdown, int64, error) {
+	//result, err := repo.ldb.Exec("UPDATE countdown SET name = ?, time_left = ? WHERE id = ?", countdown.Name, countdown.TimeLeft, id)
+	result := repo.db.Model(&countdown).Where("id = ?", id).Updates(models.Countdown{Name: countdown.Name, DueDate: countdown.DueDate})
+	if result.Error != nil {
+		return nil, 0, result.Error
 	}
-	rowsAffected, err := result.RowsAffected()
 	updatedCountdown, err := repo.getCountdown(id)
 	if err != nil {
 		return nil, 0, err
 	}
-	return updatedCountdown, rowsAffected, nil
+	return updatedCountdown, result.RowsAffected, nil
 }
 
 func (repo *SQLiteRepository) DeleteCountdown(id string) error {
-	_, err := repo.db.Exec("DELETE FROM countdown WHERE id = ?", id)
-	if err != nil {
-		return fmt.Errorf("deleteCountdown %v", err)
+	result := repo.db.Delete(&models.Countdown{}, id)
+	if result.Error != nil {
+		return fmt.Errorf("deleteCountdown %v", result.Error)
 	}
 	return nil
 }
 
 //==============INTERNAL=============
 
-func (repo *SQLiteRepository) getCountdown(id string) (*Model, error) {
-	countdown := Model{}
-	err := repo.db.QueryRow("SELECT * FROM countdown WHERE id = ?", id).Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft)
-	if err != nil {
-		return nil, fmt.Errorf("getCountdown %v", err)
+func (repo *SQLiteRepository) getCountdown(id string) (*models.Countdown, error) {
+	var countdown models.Countdown
+	result := repo.db.Find(&countdown, "id = ?", id)
+	if result.Error != nil {
+		return nil, fmt.Errorf("getCountdown %v", result.Error)
+	}
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("getCountdown %v", "countdown not found")
 	}
 	return &countdown, nil
 }
