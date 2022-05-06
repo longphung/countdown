@@ -1,17 +1,14 @@
 package main
 
 import (
-	"database/sql"
 	"github.com/gin-gonic/gin"
 	"github.com/longphung/countdown/countdown"
 	_ "modernc.org/sqlite"
 )
 
-var db *sql.DB
-
 func main() {
-	db, _ = sql.Open("sqlite", "./countdown.sqlite")
-	countdownService := countdown.NewService(db)
+	countdownSQLiteRepository := countdown.NewSQLiteRepository()
+	countdownService := countdown.NewService(countdownSQLiteRepository)
 	countdownHandler := countdown.NewHandler(countdownService)
 
 	r := gin.Default()
