@@ -1,23 +1,22 @@
-package services
+package countdown
 
 import (
 	"database/sql"
 	"fmt"
-	models "github.com/longphung/countdown/models"
 )
 
-type CountdownService struct {
+type Services struct {
 	db *sql.DB
 }
 
-func NewCountdownService(db *sql.DB) *CountdownService {
-	return &CountdownService{
+func NewService(db *sql.DB) *Services {
+	return &Services{
 		db: db,
 	}
 }
 
-func (countdownService *CountdownService) GetAllCountdowns() ([]models.Countdown, error) {
-	var countdowns []models.Countdown
+func (countdownService *Services) GetAllCountdowns() ([]Model, error) {
+	var countdowns []Model
 	rows, err := countdownService.db.Query("SELECT * FROM countdown")
 
 	if err != nil {
@@ -32,7 +31,7 @@ func (countdownService *CountdownService) GetAllCountdowns() ([]models.Countdown
 	}(rows)
 
 	for rows.Next() {
-		var countdown models.Countdown
+		var countdown Model
 		if err := rows.Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft); err != nil {
 			return nil, fmt.Errorf("getAllCountdowns %v", err)
 		}
@@ -46,7 +45,7 @@ func (countdownService *CountdownService) GetAllCountdowns() ([]models.Countdown
 	return countdowns, nil
 }
 
-func (countdownService *CountdownService) AddCountdown(countdown models.Countdown) (int64, error) {
+func (countdownService *Services) AddCountdown(countdown Model) (int64, error) {
 	result, err := countdownService.db.Exec("INSERT INTO countdown (Name, time_left) VALUES (?, ?)", countdown.Name, countdown.TimeLeft)
 	if err != nil {
 		return 0, fmt.Errorf("addCountdown %v", err)

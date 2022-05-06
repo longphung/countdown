@@ -1,6 +1,6 @@
-package models
+package countdown
 
-type Countdown struct {
+type Model struct {
 	Id       int    `json:"id"`
 	Name     string `json:"name"`
 	TimeLeft int    `json:"timeLeft"`

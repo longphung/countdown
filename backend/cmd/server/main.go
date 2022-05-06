@@ -2,9 +2,8 @@ package main
 
 import (
 	"database/sql"
-	gin "github.com/gin-gonic/gin"
-	"github.com/longphung/countdown/handlers"
-	"github.com/longphung/countdown/services"
+	"github.com/gin-gonic/gin"
+	"github.com/longphung/countdown/countdown"
 	_ "modernc.org/sqlite"
 )
 
@@ -12,8 +11,8 @@ var db *sql.DB
 
 func main() {
 	db, _ = sql.Open("sqlite", "./countdown.sqlite")
-	countdownService := services.NewCountdownService(db)
-	countdownHandler := handlers.NewCountdownHandler(countdownService)
+	countdownService := countdown.NewService(db)
+	countdownHandler := countdown.NewHandler(countdownService)
 
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {

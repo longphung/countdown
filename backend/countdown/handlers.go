@@ -1,23 +1,21 @@
-package handlers
+package countdown
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/longphung/countdown/models"
-	"github.com/longphung/countdown/services"
 	"net/http"
 )
 
-type CountdownHandler struct {
-	service *services.CountdownService
+type Handler struct {
+	service *Services
 }
 
-func NewCountdownHandler(service *services.CountdownService) *CountdownHandler {
-	return &CountdownHandler{
+func NewHandler(service *Services) *Handler {
+	return &Handler{
 		service: service,
 	}
 }
 
-func (ch *CountdownHandler) GetAllCountdowns(c *gin.Context) {
+func (ch *Handler) GetAllCountdowns(c *gin.Context) {
 	countdowns, err := ch.service.GetAllCountdowns()
 	if err != nil {
 		c.JSON(500, gin.H{
@@ -28,8 +26,8 @@ func (ch *CountdownHandler) GetAllCountdowns(c *gin.Context) {
 	c.JSON(200, countdowns)
 }
 
-func (ch *CountdownHandler) CreateCountdown(c *gin.Context) {
-	var countdown models.Countdown
+func (ch *Handler) CreateCountdown(c *gin.Context) {
+	var countdown Model
 	err := c.BindJSON(&countdown)
 	if err != nil {
 		return
