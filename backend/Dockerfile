@@ -9,14 +9,18 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY ./ ./
-RUN echo $PWD
 RUN go build -o ./bin ./cmd/server
 
 FROM ubuntu:20.04
-WORKDIR /
-COPY --from=builder /app/bin ./app
+ENV GIN_MODE=release
+ENV DB_LOCATION=/home/nonroot/db/db.sqlite
+RUN groupadd -r nonroot -g 901 && useradd -u 901 -r -g nonroot -m nonroot
+WORKDIR /home/nonroot
+RUN mkdir db
+VOLUME /home/nonroot/db
+COPY --from=builder /app/bin /home/nonroot/app
 EXPOSE 8080
-RUN groupadd -r nonroot -g 901 && useradd -u 901 -r -g nonroot nonroot
-RUN chmod 755 ./app
+RUN chmod 755 /home/nonroot/app && chown nonroot:nonroot /home/nonroot/app
+RUN chmod 755 /home/nonroot/db && chown nonroot:nonroot /home/nonroot/db
 USER nonroot:nonroot
-ENTRYPOINT ["sh", "/app"]
+ENTRYPOINT ["./app"]

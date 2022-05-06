@@ -8,10 +8,15 @@ import (
 	"gorm.io/gorm/logger"
 	"log"
 	_ "modernc.org/sqlite"
+	"os"
 )
 
 func main() {
-	db, err := gorm.Open(sqlite.Open("./countdown.sqlite"), &gorm.Config{
+	dbLocation := os.Getenv("DB_LOCATION")
+	if dbLocation == "" {
+		dbLocation = "./db.sqlite"
+	}
+	db, err := gorm.Open(sqlite.Open(dbLocation), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
