@@ -1,6 +1,7 @@
 package countdown
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -24,6 +25,19 @@ func (ch *Handler) GetAllCountdowns(c *gin.Context) {
 		return
 	}
 	c.JSON(200, countdowns)
+}
+
+func (ch *Handler) GetCountdown(c *gin.Context) {
+	countdown, err := ch.service.GetCountdown(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	fmt.Println(countdown)
+	fmt.Println(*countdown)
+	c.JSON(http.StatusOK, countdown)
 }
 
 func (ch *Handler) CreateCountdown(c *gin.Context) {

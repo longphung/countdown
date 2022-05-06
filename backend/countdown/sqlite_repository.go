@@ -45,6 +45,15 @@ func (repo *SQLiteRepository) GetAllCountdowns() ([]Model, error) {
 	return countdowns, nil
 }
 
+func (repo *SQLiteRepository) GetCountdown(id string) (*Model, error) {
+	countdown := Model{}
+	err := repo.db.QueryRow("SELECT * FROM countdown WHERE id = ?", id).Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft)
+	if err != nil {
+		return nil, fmt.Errorf("getCountdown %v", err)
+	}
+	return &countdown, nil
+}
+
 func (repo *SQLiteRepository) CreateCountdown(countdown Model) (int64, error) {
 	result, err := repo.db.Exec("INSERT INTO countdown (Name, time_left) VALUES (?, ?)", countdown.Name, countdown.TimeLeft)
 	if err != nil {
