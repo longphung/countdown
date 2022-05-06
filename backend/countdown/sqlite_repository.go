@@ -1,15 +1,13 @@
 package countdown
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/longphung/countdown/countdown/models"
 	"gorm.io/gorm"
 )
 
 type SQLiteRepository struct {
-	db  *gorm.DB
-	ldb *sql.DB
+	db *gorm.DB
 }
 
 func NewSQLiteRepository(db *gorm.DB) *SQLiteRepository {
