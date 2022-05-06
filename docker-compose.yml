@@ -1,0 +1,16 @@
+services:
+  backend:
+    image: countdown-backend
+    build:
+      context: backend
+    volumes:
+      - ./data:/data
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: countdown-backend
+    driver: bridge
