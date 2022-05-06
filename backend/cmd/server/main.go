@@ -21,6 +21,7 @@ func main() {
 	r.GET("/countdowns", countdownHandler.GetAllCountdowns)
 	r.GET("/countdown/:id", countdownHandler.GetCountdown)
 	r.POST("/countdowns", countdownHandler.CreateCountdown)
+	r.PATCH("/countdown/:id", countdownHandler.UpdateCountdown)
 
 	apiErr := r.Run()
 	if apiErr != nil {

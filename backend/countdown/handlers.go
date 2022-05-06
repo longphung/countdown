@@ -57,3 +57,25 @@ func (ch *Handler) CreateCountdown(c *gin.Context) {
 		"id": id,
 	})
 }
+
+func (ch *Handler) UpdateCountdown(c *gin.Context) {
+	var countdown Model
+	err := c.BindJSON(&countdown)
+	if err != nil {
+		return
+	}
+	updatedCountdown, rowsAffected, err := ch.service.UpdateCountdown(c.Param("id"), countdown)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Countdown updated",
+		"data": gin.H{
+			"updatedCountdown": updatedCountdown,
+			"rowsAffected":     rowsAffected,
+		},
+	})
+}

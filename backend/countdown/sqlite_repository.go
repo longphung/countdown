@@ -46,12 +46,7 @@ func (repo *SQLiteRepository) GetAllCountdowns() ([]Model, error) {
 }
 
 func (repo *SQLiteRepository) GetCountdown(id string) (*Model, error) {
-	countdown := Model{}
-	err := repo.db.QueryRow("SELECT * FROM countdown WHERE id = ?", id).Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft)
-	if err != nil {
-		return nil, fmt.Errorf("getCountdown %v", err)
-	}
-	return &countdown, nil
+	return repo.getCountdown(id)
 }
 
 func (repo *SQLiteRepository) CreateCountdown(countdown Model) (int64, error) {
@@ -64,4 +59,28 @@ func (repo *SQLiteRepository) CreateCountdown(countdown Model) (int64, error) {
 		return 0, fmt.Errorf("createCountdown %v", err)
 	}
 	return id, nil
+}
+
+func (repo *SQLiteRepository) UpdateCountdown(id string, countdown Model) (*Model, int64, error) {
+	result, err := repo.db.Exec("UPDATE countdown SET name = ?, time_left = ? WHERE id = ?", countdown.Name, countdown.TimeLeft, id)
+	if err != nil {
+		return nil, 0, err
+	}
+	rowsAffected, err := result.RowsAffected()
+	updatedCountdown, err := repo.getCountdown(id)
+	if err != nil {
+		return nil, 0, err
+	}
+	return updatedCountdown, rowsAffected, nil
+}
+
+//==============INTERNAL=============
+
+func (repo *SQLiteRepository) getCountdown(id string) (*Model, error) {
+	countdown := Model{}
+	err := repo.db.QueryRow("SELECT * FROM countdown WHERE id = ?", id).Scan(&countdown.Id, &countdown.Name, &countdown.TimeLeft)
+	if err != nil {
+		return nil, fmt.Errorf("getCountdown %v", err)
+	}
+	return &countdown, nil
 }
