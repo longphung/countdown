@@ -21,6 +21,6 @@ VOLUME /home/nonroot/db
 COPY --from=builder /app/bin /home/nonroot/app
 EXPOSE 8080
 RUN chmod 755 /home/nonroot/app && chown nonroot:nonroot /home/nonroot/app
-RUN chmod 755 /home/nonroot/db && chown nonroot:nonroot /home/nonroot/db
+RUN chmod 777 /home/nonroot/db && chown nonroot:nonroot /home/nonroot/db
 USER nonroot:nonroot
 ENTRYPOINT ["./app"]
