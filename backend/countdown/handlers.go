@@ -79,3 +79,17 @@ func (ch *Handler) UpdateCountdown(c *gin.Context) {
 		},
 	})
 }
+
+func (ch *Handler) DeleteCountdown(c *gin.Context) {
+	err := ch.service.DeleteCountdown(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Countdown deleted",
+		"id":      c.Param("id"),
+	})
+}

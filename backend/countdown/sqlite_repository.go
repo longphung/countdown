@@ -74,6 +74,14 @@ func (repo *SQLiteRepository) UpdateCountdown(id string, countdown Model) (*Mode
 	return updatedCountdown, rowsAffected, nil
 }
 
+func (repo *SQLiteRepository) DeleteCountdown(id string) error {
+	_, err := repo.db.Exec("DELETE FROM countdown WHERE id = ?", id)
+	if err != nil {
+		return fmt.Errorf("deleteCountdown %v", err)
+	}
+	return nil
+}
+
 //==============INTERNAL=============
 
 func (repo *SQLiteRepository) getCountdown(id string) (*Model, error) {

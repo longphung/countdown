@@ -25,3 +25,7 @@ func (service *Services) AddCountdown(countdown Model) (int64, error) {
 func (service *Services) UpdateCountdown(id string, countdown Model) (*Model, int64, error) {
 	return service.repository.UpdateCountdown(id, countdown)
 }
+
+func (service *Services) DeleteCountdown(id string) error {
+	return service.repository.DeleteCountdown(id)
+}
