@@ -1,0 +1,5 @@
+.button :global(span.ripple) {
+  @apply bg-rippleWhite absolute rounded-full animate-ripple;
+  /* for some reasons @apply scale-0 doesn't work 🤷 */
+  transform: scale(0);
+}

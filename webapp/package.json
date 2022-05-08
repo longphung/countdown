@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
+    "daisyui": "^2.14.3",
     "framer-motion": "^6.3.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
