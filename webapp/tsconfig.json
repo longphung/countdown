@@ -38,6 +38,12 @@
       ],
       "@pages": [
         "./src/components"
+      ],
+      "@services/*": [
+        "./services/*"
+      ],
+      "@services": [
+        "./services"
       ]
     }
   },

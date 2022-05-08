@@ -1,6 +1,10 @@
 import React from "react";
+import { useGetAllCountdowns } from "@services/countdown/hooks";
+import Item from "@pages/items_list/item";
 
 const ItemsList: React.FC = () => {
+  const { data: allCountdowns } = useGetAllCountdowns();
+  console.log(allCountdowns);
   /* =========
     Render
    ========= */
@@ -31,19 +35,9 @@ const ItemsList: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                  <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      Apple Imac 27"
-                    </td>
-                    <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                      Desktop PC
-                    </td>
-                    <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                      <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">
-                        Edit
-                      </a>
-                    </td>
-                  </tr>
+                  {allCountdowns?.map((countdown) => {
+                    return <Item item={countdown} key={countdown.id} />;
+                  })}
                 </tbody>
               </table>
             </div>
