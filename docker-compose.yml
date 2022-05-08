@@ -9,6 +9,14 @@ services:
       - "${PORT-8080}:8080"
     networks:
       - backend
+  webapp:
+    image: countdown-webapp
+    build:
+      context: webapp
+    ports:
+      - "${PORT-5000}:80"
+    networks:
+      - backend
 
 networks:
   backend:
