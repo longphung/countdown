@@ -1,6 +1,6 @@
 import React from "react";
 
-const Items_list: React.FC = () => {
+const ItemsList: React.FC = () => {
   /* =========
     Render
    ========= */
@@ -20,7 +20,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-all" className="sr-only">
+                        <label htmlFor="checkbox-all" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -57,7 +57,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-table-1" className="sr-only">
+                        <label htmlFor="checkbox-table-1" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -85,7 +85,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-table-2" className="sr-only">
+                        <label htmlFor="checkbox-table-2" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -113,7 +113,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-table-3" className="sr-only">
+                        <label htmlFor="checkbox-table-3" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -141,7 +141,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-table-4" className="sr-only">
+                        <label htmlFor="checkbox-table-4" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -169,7 +169,7 @@ const Items_list: React.FC = () => {
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300   focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label for="checkbox-table-5" className="sr-only">
+                        <label htmlFor="checkbox-table-5" className="sr-only">
                           checkbox
                         </label>
                       </div>
@@ -199,4 +199,4 @@ const Items_list: React.FC = () => {
   );
 };
 
-export default Items_list;
+export default ItemsList;

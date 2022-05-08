@@ -1,1 +1,1 @@
-export { default } from "./animate-height";
+export { default } from "./animate_height";

@@ -1,1 +1,1 @@
-export { default } from './input-with-error';
+export { default } from './input_with_error';

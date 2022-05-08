@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 // Local modules
-import styles from "./input-with-error.module.css";
+import styles from "./input_with_error.module.css";
 import Icon from "@components/icon";
 import { Icons } from "@components/icon/constants";
-import AnimateHeight from "@components/animate-height";
+import AnimateHeight from "@components/animate_height";
 
 export type InputWithErrorProps = {
   type?: string;
@@ -61,7 +61,7 @@ const InputWithError: React.FC<InputWithErrorProps> = React.forwardRef(
         <div className={`${isPassword ? "input-group" : ""} ${typeStyles}`}>
           {React.createElement(as as any, {
             type: typeToUse,
-            className: `input input-bordered bg-white w-full transition disabled:bg-gray-100 disabled:border-[rgba(45,55,72,0.2)] ${inputClass} ${className}`,
+            className: `border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 bg-white w-full transition disabled:bg-gray-100 disabled:border-[rgba(45,55,72,0.2)] ${inputClass} ${className}`,
             id,
             required,
             placeholder: " ",
@@ -72,7 +72,7 @@ const InputWithError: React.FC<InputWithErrorProps> = React.forwardRef(
           <label
             htmlFor={id}
             className={clsx(
-              "label whitespace-pre-line",
+              "text-gray-900 whitespace-pre-line",
               (errorMessage || hasError) && "!text-error"
             )}
           >
@@ -87,7 +87,7 @@ const InputWithError: React.FC<InputWithErrorProps> = React.forwardRef(
               className={`password bg-transparent transition border border-l-0 ${
                 errorMessage || hasError
                   ? errorMessageInput
-                  : "border-base-content"
+                  : "border-gray-800"
               }`}
               onClick={handlePasswordEyeClick}
             >
@@ -102,7 +102,7 @@ const InputWithError: React.FC<InputWithErrorProps> = React.forwardRef(
                   icon={Icons.VisibilityOff}
                   className={clsx(
                     "transition",
-                    typeToUse === "password" && "text-grey-100",
+                    typeToUse === "password" && "text-gray-100",
                     errorMessage || hasError
                       ? "group-focus:drop-shadow-error"
                       : "group-focus:drop-shadow"

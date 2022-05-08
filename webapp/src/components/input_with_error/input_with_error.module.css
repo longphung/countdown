@@ -10,18 +10,18 @@
   }
 
   label {
-    @apply transition-all absolute pointer-events-none top-2 left-3 text-base-200;
+    @apply transition-all absolute pointer-events-none top-4 left-10 text-gray-900;
   }
 
-  input:is(:focus, :not(:focus):valid, :not(:placeholder-shown)) ~ label {
-    @apply top-[-0.25rem] text-xs;
+  input:is(:focus, :not(:placeholder-shown)) ~ label {
+    @apply top-0 text-xs;
   }
 
   textarea:is(:focus, :not(:focus):valid, :not(:placeholder-shown)) {
     @apply pt-3;
 
     ~ label {
-      @apply top-[-0.25rem] text-xs;
+      @apply top-0 text-xs;
     }
   }
 }
