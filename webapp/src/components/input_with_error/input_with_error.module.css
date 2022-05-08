@@ -1,0 +1,31 @@
+.textInput {
+  @apply relative;
+
+  span:global(.password:not(.border-error)) {
+    --tw-border-opacity: 0.2;
+  }
+
+  input {
+    @apply h-14;
+  }
+
+  label {
+    @apply transition-all absolute pointer-events-none top-2 left-3 text-base-200;
+  }
+
+  input:is(:focus, :not(:focus):valid, :not(:placeholder-shown)) ~ label {
+    @apply top-[-0.25rem] text-xs;
+  }
+
+  textarea:is(:focus, :not(:focus):valid, :not(:placeholder-shown)) {
+    @apply pt-3;
+
+    ~ label {
+      @apply top-[-0.25rem] text-xs;
+    }
+  }
+}
+
+.radioInput {
+  @apply flex-row;
+}
