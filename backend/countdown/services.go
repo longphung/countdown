@@ -1,6 +1,7 @@
 package countdown
 
 import (
+	"errors"
 	"github.com/longphung/countdown/countdown/interfaces"
 	"github.com/longphung/countdown/countdown/models"
 )
@@ -8,6 +9,12 @@ import (
 type Services struct {
 	repository interfaces.Repository
 }
+
+var (
+	ErrInvalidId = errors.New("invalid id")
+	ErrNotFound  = errors.New("movie not found")
+	ErrNoDueDate = errors.New("no due date")
+)
 
 func NewService(repository interfaces.Repository) *Services {
 	return &Services{

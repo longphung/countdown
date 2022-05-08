@@ -11,7 +11,7 @@ type Handler struct {
 	service interfaces.Services
 }
 
-func NewHandler(service *Services) *Handler {
+func NewHandler(service interfaces.Services) *Handler {
 	return &Handler{
 		service: service,
 	}
