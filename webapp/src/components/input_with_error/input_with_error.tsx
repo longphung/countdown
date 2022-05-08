@@ -61,7 +61,7 @@ const InputWithError: React.FC<InputWithErrorProps> = React.forwardRef(
         <div className={`${isPassword ? "input-group" : ""} ${typeStyles}`}>
           {React.createElement(as as any, {
             type: typeToUse,
-            className: `border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 bg-white w-full transition disabled:bg-gray-100 disabled:border-[rgba(45,55,72,0.2)] ${inputClass} ${className}`,
+            className: `border border-2 border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 bg-white w-full transition disabled:bg-gray-100 disabled:border-[rgba(45,55,72,0.2)] ${inputClass} ${className}`,
             id,
             required,
             placeholder: " ",

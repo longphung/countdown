@@ -14,14 +14,14 @@
   }
 
   input:is(:focus, :not(:placeholder-shown)) ~ label {
-    @apply top-0 text-xs;
+    @apply top-1 text-xs;
   }
 
   textarea:is(:focus, :not(:focus):valid, :not(:placeholder-shown)) {
     @apply pt-3;
 
     ~ label {
-      @apply top-0 text-xs;
+      @apply top-1 text-xs;
     }
   }
 }
