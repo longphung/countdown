@@ -9,6 +9,7 @@
     "generate-icons": "./scripts/generate-icons-types.sh > ./src/components/icon/constants.ts"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "clsx": "^1.1.1",
     "daisyui": "^2.14.3",
     "framer-motion": "^6.3.3",
