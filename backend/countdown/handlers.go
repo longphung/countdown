@@ -39,13 +39,18 @@ func (ch *Handler) GetCountdown(c *gin.Context) {
 		return
 	}
 	countdown, err := ch.service.GetCountdown(params.Id)
-	if err != nil {
+	switch err {
+	case ErrNotFound:
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": err.Error(),
+		})
+	case nil:
+		c.JSON(http.StatusOK, countdown)
+	default:
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
-		return
 	}
-	c.JSON(http.StatusOK, countdown)
 }
 
 func (ch *Handler) CreateCountdown(c *gin.Context) {
