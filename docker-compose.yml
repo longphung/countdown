@@ -7,18 +7,11 @@ services:
       - ${DB_LOCATION-./db}:/home/nonroot/db
     ports:
       - "${PORT-8080}:8080"
-    networks:
-      - backend
   webapp:
     image: countdown-webapp
     build:
       context: webapp
+      args:
+        - VITE_API_URL=${VITE_API_URL-http://localhost:8080}
     ports:
-      - "${PORT-5000}:80"
-    networks:
-      - backend
-
-networks:
-  backend:
-    name: countdown-backend
-    driver: bridge
+      - "${PORT-5001}:80"

@@ -3,7 +3,6 @@ FROM node:16-alpine3.14 as builder
 WORKDIR /app
 
 ARG VITE_API_URL="https://countdown-staging-api.longphung.me"
-ENV VITE_API_URL=${VITE_API_URL}
 # Enable pnpm
 RUN corepack enable
 

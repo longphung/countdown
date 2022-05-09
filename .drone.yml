@@ -13,6 +13,13 @@ steps:
 - name: backend
   commands:
   - docker compose build backend
+  -
+- name: webapp
+  environment:
+    PORT: 5001
+    VITE_API_URL: https://countdown-staging-api.longphung.me
+  commands:
+    - docker compose build webapp
 
 - name: cleanup
   commands:
