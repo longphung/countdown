@@ -16,7 +16,7 @@ steps:
   -
 - name: webapp
   environment:
-    VITE_API_URL: https://countdown-staging-api.longphung.me
+    VITE_API_URL: /api
   commands:
     - docker compose build webapp
 
