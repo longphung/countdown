@@ -29,6 +29,7 @@ steps:
       - success
   depends_on:
     - backend
+    - webapp
 
 - name: deploy
   environment:
