@@ -16,7 +16,6 @@ steps:
   -
 - name: webapp
   environment:
-    PORT: 5001
     VITE_API_URL: https://countdown-staging-api.longphung.me
   commands:
     - docker compose build webapp
@@ -33,7 +32,8 @@ steps:
 
 - name: deploy
   environment:
-    PORT: 5000
+    BE_PORT: 5000
+    WA_PORT: 5001
     DB_LOCATION: "/mnt/volume_sgp1_01/countdown/db"
   commands:
     - docker compose -p countdown_staging up -d --force-recreate
@@ -51,7 +51,8 @@ name: deploy
 steps:
   - name: deploy
     environment:
-      PORT: 2000
+      BE_PORT: 2000
+      WA_PORT: 2001
       DB_LOCATION: "/mnt/volume_sgp1_01/countdown/production"
     commands:
     - docker compose -p countdown_production up -d --force-recreate
